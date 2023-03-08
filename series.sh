@@ -75,20 +75,33 @@ do
 done
 
 }
+'
 
-
-function max(){
+function Max(){
 #hadeel
-}
+sortedArray=($(for l in ${array[@]}; do echo $l; done | sort -n | tail -n 1))
+for elem in ${sortedArray[@]}
+do 
+  echo $elem
+done
 
-function min(){
+}
+function Min(){
 #hadeel
-}
+sortedArray=($(for l in ${array[@]}; do echo $l; done | sort -n | head -n 1))
+for elem in ${sortedArray[@]}
+do 
+  echo $elem
+done
 
+}
+: '
 function average(){
 #victor
 }
 '
+
+
 function size(){
 #balsam
 local size=${#array[@]}
@@ -131,7 +144,10 @@ fi
 
 array=("$@")
 main 
-Sum
+echo ----------------------
+	Sum
+	Min
+	Max
 echo ----------------------
 result="$(size)"
 echo "return value $result"
