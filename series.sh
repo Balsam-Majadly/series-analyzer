@@ -94,16 +94,30 @@ function size(){
 local size=${#array[@]}
 echo $size
 }
-: '
-function sum (){
-#victor
+
+
+function Sum (){
+
+local sumElements=0
+local index_counter=${#array[@]}
+
+i=0
+while [[ $i -lt $index_counter ]] 
+	do
+		sumElements=$(( sumElements + ${array[i]}))
+		let i=i+1
+	done
+echo "there are $index_counter elements in array and their sum is $sumElements"
+
 }
 
 
-'
+
+
 
 function main(){
 #check external with if 
+
 if [[ ${#array[@]} -lt 3 ]]
 	then
 	input
@@ -117,7 +131,7 @@ fi
 
 array=("$@")
 main 
-
+Sum
 echo ----------------------
 result="$(size)"
 echo "return value $result"
