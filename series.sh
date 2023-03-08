@@ -5,52 +5,85 @@ sortedArray=0
 
 function input(){
 
-	echo "You entered less than 3 numbers"
-	echo "Enter 3 or more numbers : "
+	echo "Enter 3 or more numbers : "	
 	read -a array
-	while [[ ${#array[@]} -lt 3 ]]
-	do
-		echo "Enter 3 or more numbers : "
-		
-		read -a array
-		#call valition func
-		selectt
-	done
+	
+	if [[ ${#array[@]} -lt 3 ]] 
+	then
+		echo "You entered less than 3 numbers"
+		input
+	fi
+	
+	local check="$(valditaion)"
+	
+	if [[ $check -eq 0 ]] 
+	then
+		echo "Enter numbers only"
+		input
+	else 
+	selectt
+	fi
+
 }
-: '
+
 function valditaion(){ 
-#mahdi
-#check the array
-
+	
+	local flag=1
+	
+	for i in ${array[@]}
+	do
+		if [[ ! $i =~ ^[0-9]+$ ]]
+		then
+			flag=0
+		fi
+	done
+	
+	echo $flag
+		
 }
-'
-
 
 function selectt () {
 #balsam
-select option in displayArray displaySortedArray max min average size sum exit
+select option in input displayArray displaySortedArray max min average size sum exit
 do
    case $option in
+     input) 
+         
+         input
+         ;;
       displayArray) 
+    
          echo "displayArray"
+         printArray
          ;;
       displaySortedArray)
-         echo "displaySortedArray"
+      echo "print sorted array"
+        
+         sortedArray
       ;;
       max) 
-         echo "max" 
+         
+         result="$(Max)"
+ 	echo "max value $result" 
+         
       ;;
        min) 
-         echo "min"
+           result="$(Min)"
+ 	echo "min value $result"
+        
       ;;
        average) 
-         echo "average"
+        
+         echo "Average of number is: "
+          average
       ;;
        size) 
-         echo "size"
+        echo "number of elements: "
+         size
       ;;
        sum) 
-         echo "sum"
+         echo "sum of array"
+         Sum 
       ;;
        exit) 
          echo "exit"
@@ -62,7 +95,7 @@ do
 done
 }
 
-: '
+
 
 function sortedArray(){
 
@@ -75,7 +108,16 @@ do
 done
 
 }
-'
+
+function printArray(){
+
+for elem in ${array[@]}
+do 
+  echo $elem
+done
+
+}
+
 
 function Max(){
 #hadeel
@@ -95,11 +137,8 @@ do
 done
 
 }
-: '
-function average(){
-#victor
-}
-'
+
+
 
 
 function size(){
@@ -120,39 +159,47 @@ while [[ $i -lt $index_counter ]]
 		sumElements=$(( sumElements + ${array[i]}))
 		let i=i+1
 	done
-echo "there are $index_counter elements in array and their sum is $sumElements"
+echo "$sumElements"
 
 }
 
-
+function average(){
+#victor
+local size1="$(size)"
+local sum1="$(Sum)"
+ let result=sum1/size1
+echo $result
+}
 
 
 
 function main(){
-#check external with if 
-
-if [[ ${#array[@]} -lt 3 ]]
+	#check external with if 
+	local check="$(valditaion)"
+	if [[ ${#array[@]} -lt 3 || $check -eq 0 ]]
 	then
-	input
-else
-echo "ok"
-
-#valditaion
-#selectt
-fi
+		input
+	else
+		echo "ok"
+		selectt
+	fi
+	
 }
+
 
 array=("$@")
 main 
+: '
 echo ----------------------
 	Sum
 	Min
 	Max
+	size
 echo ----------------------
 result="$(size)"
 echo "return value $result"
 
-: '
+
 b=($(for l in ${arr[@]}; do echo $l; done | sort -n))
 for elem in ${b[@]}
 do 
