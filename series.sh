@@ -7,14 +7,14 @@ function input(){
 
 	echo "You entered less than 3 numbers"
 	echo "Enter 3 or more numbers : "
-	read -a arr
-	while [[ ${#arr[@]} -lt 3 ]]
+	read -a array
+	while [[ ${#array[@]} -lt 3 ]]
 	do
 		echo "Enter 3 or more numbers : "
 		
 		read -a array
 		#call valition func
-		#call select func
+		selectt
 	done
 }
 : '
@@ -23,12 +23,46 @@ function valditaion(){
 #check the array
 
 }
+'
 
 
 function selectt () {
 #balsam
-
+select option in displayArray displaySortedArray max min average size sum exit
+do
+   case $option in
+      displayArray) 
+         echo "displayArray"
+         ;;
+      displaySortedArray)
+         echo "displaySortedArray"
+      ;;
+      max) 
+         echo "max" 
+      ;;
+       min) 
+         echo "min"
+      ;;
+       average) 
+         echo "average"
+      ;;
+       size) 
+         echo "size"
+      ;;
+       sum) 
+         echo "sum"
+      ;;
+       exit) 
+         echo "exit"
+         exit
+      ;;
+      *) echo "ERROR: Invalid selection" 
+      ;;
+   esac
+done
 }
+
+: '
 
 function sortedArray(){
 
@@ -54,11 +88,13 @@ function min(){
 function average(){
 #victor
 }
-
+'
 function size(){
 #balsam
+local size=${#array[@]}
+echo $size
 }
-
+: '
 function sum (){
 #victor
 }
@@ -68,19 +104,23 @@ function sum (){
 
 function main(){
 #check external with if 
-if [[ $# -lt 3 ]]
+if [[ ${#array[@]} -lt 3 ]]
 	then
 	input
 else
 echo "ok"
-array=$@
+
 #valditaion
 #selectt
 fi
 }
 
+array=("$@")
+main 
 
-main $@
+echo ----------------------
+result="$(size)"
+echo "return value $result"
 
 : '
 b=($(for l in ${arr[@]}; do echo $l; done | sort -n))
