@@ -55,13 +55,3 @@ fi
 
 
 main $@
-
-: '
-b=($(for l in ${arr[@]}; do echo $l; done | sort -n))
-for elem in ${b[@]}
-do 
-  echo $elem
-done
-
-'
-
